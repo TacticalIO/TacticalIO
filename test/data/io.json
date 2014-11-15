@@ -1,0 +1,101 @@
+[
+	{
+		"id": 5,
+		"spi_address": "ADC",
+		"pin_number": 13,
+		"mux": [0, 1, 0], 
+		"type": "HS-AIO12-ADC"
+	}, {
+		"id": 4,
+		"spi_address": 4,
+		"pin_number": 16, 
+		"mux": [0, 0, 0], 
+		"type": "GPIO64",
+		"DI": {
+			"commandType": "SPI",
+			"channels": 32
+		},
+		"DO": {
+			"commandType": "SPI",
+			"channels": 32
+		}
+	}, {
+		"id": 3,
+		"spi_address": 3,
+		"pin_number": 15,
+		"mux": [0, 0, 0], 
+		"type": "HS-GPIO32",
+		"DI": {
+			"commandType": "FPGA-SPI",
+			"channels": 16
+		},
+		"DO": {
+			"commandType": "FPGA-SPI",
+			"channels": 16
+		}
+	}, {
+		"id": 2,
+		"spi_address": 2,
+		"pin_number": 13,
+		"mux": [0, 0, 0], 
+		"type": "HS-AIO12",
+		"AI": {
+			"commandType": "FPGA-SPI",
+			"channels": 8
+		},
+		"AO": {
+			"commandType": "FPGA-SPI",
+			"channels": 8
+		}
+	}, {
+		"id": 1,
+		"spi_address": 1,
+		"pin_number": 12,
+		"mux": [0, 0, 0], 
+		"type": "HS-FSKCOM",
+		"FSK": {
+			"commandType": "FPGA-SPI",
+			"channels": [{
+				"f0": 3954000,
+				"f": 4519000
+			}, {
+				"f0": 3954000,
+				"f": 4519000
+			}]
+		},
+		"COM": {
+			"commandType": "FPGA-SPI",
+			"channels": [{
+					"protocol": "RS485"
+				}, {
+					"protocol": "RS232"
+			}]
+		}
+	}, {
+		"id": 0,
+		"spi_address": 0,
+		"spi_master": true,
+		"mux": [0, 0, 0], 
+		"type": "CPU-RPI",
+		"DI": {
+			"commandType": "CPU-GPIO",
+			"channels": [{
+				"pin": 40
+			}, {
+				"pin": 38
+			}, {
+				"pin": 37
+			}, {
+				"pin": 36
+			}]
+		},
+		"DO": {
+			"commandType": "CPU-GPIO",
+			"channels": [{
+				"pin": 33
+			}, {
+				"pin": 35
+			}]
+		}
+	}
+]

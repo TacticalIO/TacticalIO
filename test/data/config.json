@@ -1,0 +1,18 @@
+{		
+	"log": {
+		"name": "TIO",
+		"level": "debug",
+		"ip": "192.168.0.13",
+		"port": 51313,
+		"destination": "udp",
+		"activated": true
+	},
+	"mqtt": {
+		"ip": null,
+		"port": 1883,
+		"syncperiod": 100,
+		"rpctimeout": 100,
+		"datalog": "yes"
+	},
+	"ioCfgFile": "./data/io.json"
+}

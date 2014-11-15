@@ -1,0 +1,24 @@
+{
+  "name": "tio",
+  "version": "0.9.3",
+  "author": "Victor Andritoiu <devandrito@gmail.com>",
+  "description": "TacticalIO software interface",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/opentekhnia/tacticalio.git"
+  },
+  "dependencies": {
+    "cli-color": "^0.3.2",
+    "mqtt": "^0.3.12",
+    "my-ip": "^1.1.1",
+    "performance-now": "^0.2.0",
+    "async": "0.9.0",
+    "debug": "^2.1.0",    
+    "pi-spi": "vandrito/pi-spi",
+    "rpi-gpio": "vandrito/rpi-gpio.js"
+  },
+  "license": "Commons Attribution-NonCommercial-ShareAlike 4.0 International License.",
+  "engines": {
+    "node": "0.10.x"
+  }
+}
