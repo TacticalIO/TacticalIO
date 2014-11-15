@@ -5,7 +5,7 @@ var myIP = require('my-ip'),
   LogApp = require('../lib/log').LogApp,
   fs = require('fs');
 
-var config = JSON.parse(fs.readFileSync('../data/config.json'));
+var config = JSON.parse(fs.readFileSync('./data/config.json'));
 
 config.log.destination = 'console';
 config.log.activated = true;
