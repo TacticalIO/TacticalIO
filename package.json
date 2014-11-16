@@ -16,8 +16,7 @@
     "my-ip": "^1.1.1",
     "onoff": "^0.3.2",
     "performance-now": "^0.2.0",
-    "pi-spi": "vandrito/pi-spi",
-    "rpi-gpio": "vandrito/rpi-gpio.js"
+    "pi-spi": "vandrito/pi-spi"
   },
   "license": "Commons Attribution-NonCommercial-ShareAlike 4.0 International License.",
   "engines": {

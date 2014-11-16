@@ -25,7 +25,7 @@ function initialized(err) {
 			},
 			function(callback) {
 				self.cs({
-					spi_address: 1, 
+					id: 'FSKCOM-1', 
 					enable: true
 				}, function(err) {
 					if (!err) debug('CS 1 enabled (low level)');
@@ -49,8 +49,9 @@ function initialized(err) {
 				}, function(err, value) {
 					if (!err) {
 						debug('DI49 = ' + value, ' Test ' + (value ? 'ok' : 'ko'));
+					} else {
+						debug('DI49 read failed: ' + err);
 					}
-					debug('DO49 read failed: ' + err);
 					callback(err);
 				});
 			},
@@ -67,7 +68,7 @@ function initialized(err) {
 			},
 			function(callback) {
 				self.writeGPIO64Digital32({
-					spi_address: 4,
+					id: 'GPIO64-1',
 					values: '10101010101010101010101010101010'
 				}, function(err) {
 					if (err) {
@@ -78,7 +79,7 @@ function initialized(err) {
 			},
 			function(callback) {
 				self.writeGPIO64Digital32({
-					spi_address: 4,
+					id: 'GPIO64-1',
 					values: [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
 				}, function(err) {
 					if (err) {
@@ -89,7 +90,7 @@ function initialized(err) {
 			},
 			function(callback) {
 				self.writeGPIO64Digital32({
-					spi_address: 4,
+					id: 'GPIO64-1',
 					values: 2863311530
 				}, function(err) {
 					if (err) {
