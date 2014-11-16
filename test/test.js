@@ -19,9 +19,9 @@ if (tio) {
 	tio.writeDigital({ name: 'DO49', value: true });
 	var ret = tio.readDigital({ name: 'DI49' });
 	debug('DI49 = ' + ret, ' Test ' + (ret ? 'ok' : 'ko'));
-	tio.writeDigital({ name: 'DO13', value: true });
+	//tio.writeDigital({ name: 'DO13', value: true });
 	debug('DO13 write attempt (GPIO64-1), should have used SPI');
-	elf.writeGPIO64Digital32({
+	tio.writeGPIO64Digital32({
 		id: 'GPIO64-1',
 		values: '10101010101010101010101010101010'
 	});
