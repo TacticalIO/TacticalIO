@@ -33,7 +33,7 @@ if (tio) {
 	debug('32 block write attempt (GPIO64-1), should have used SPI');
 	tio.writeGPIO64Digital32({ id: 'GPIO64-1', values: 2863311530 });
 	debug('32 block write attempt (GPIO64-1), should have used SPI');
-	tio.end(callback);
+	tio.end();
 	debug('All pins unexported');
 } else {
 	debug('TIO not initialized');
