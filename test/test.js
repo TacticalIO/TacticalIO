@@ -28,7 +28,16 @@ function initialized(err) {
 					id: 'FSKCOM-1', 
 					enable: true
 				}, function(err) {
-					if (!err) debug('CS 1 enabled (low level)');
+					if (!err) debug('CS FSKCOM-1 enabled (low level)');
+					callback(err);
+				});
+			},
+			function(callback) {
+				self.cs({
+					id: 'FSKCOM-1', 
+					enable: false
+				}, function(err) {
+					if (!err) debug('CS FSKCOM-1 disabled (low level)');
 					callback(err);
 				});
 			},
@@ -60,7 +69,9 @@ function initialized(err) {
 					name: 'DO13', 
 					value: true
 				}, function(err) {
-					if (err) {
+					if (!err) {
+						debug('DO13 write attempt (GPIO64-1), should have used SPI');
+					} else {
 						debug('DO13 write failed: ' + err);
 					}
 					callback(err);
@@ -71,7 +82,9 @@ function initialized(err) {
 					id: 'GPIO64-1',
 					values: '10101010101010101010101010101010'
 				}, function(err) {
-					if (err) {
+					if (!err) {
+						debug('32 block write attempt (GPIO64-1), should have used SPI');
+					} else {
 						debug('Block write failed: ' + err);
 					}
 					callback(err);
@@ -82,7 +95,9 @@ function initialized(err) {
 					id: 'GPIO64-1',
 					values: [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
 				}, function(err) {
-					if (err) {
+					if (!err) {
+						debug('32 block write attempt (GPIO64-1), should have used SPI');
+					} else {
 						debug('Block write failed: ' + err);
 					}
 					callback(err);
@@ -93,7 +108,9 @@ function initialized(err) {
 					id: 'GPIO64-1',
 					values: 2863311530
 				}, function(err) {
-					if (err) {
+					if (!err) {
+						debug('32 block write attempt (GPIO64-1), should have used SPI');
+					} else {
 						debug('Block write failed: ' + err);
 					}
 					callback(err);
