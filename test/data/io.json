@@ -1,13 +1,11 @@
 [
 	{
 		"id": "ADC",
-		"spi_address": "ADC",
 		"cs": 1,
 		"mux": [0, 1, 0], 
 		"type": "HS-AIO12-ADC"
 	}, {
 		"id": "GPIO64-1",
-		"spi_address": 4,
 		"cs": 3, 
 		"mux": [0, 0, 0], 
 		"type": "GPIO64",
@@ -21,7 +19,6 @@
 		}
 	}, {
 		"id": "GPIO32-1",
-		"spi_address": 3,
 		"cs": 2,
 		"mux": [0, 0, 0], 
 		"type": "HS-GPIO32",
@@ -35,7 +32,6 @@
 		}
 	}, {
 		"id": "AIO12-1",
-		"spi_address": 2,
 		"cs": 1,
 		"mux": [0, 0, 0], 
 		"type": "HS-AIO12",
@@ -49,7 +45,6 @@
 		}
 	}, {
 		"id": "FSKCOM-1",
-		"spi_address": 1,
 		"cs": 0,
 		"mux": [0, 0, 0], 
 		"type": "HS-FSKCOM",
@@ -73,7 +68,6 @@
 		}
 	}, {
 		"id": "CPU",
-		"spi_address": 0,
 		"spi_master": true,
 		"mux": [0, 0, 0], 
 		"type": "CPU-RPI",
