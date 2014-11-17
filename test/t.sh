@@ -6,6 +6,14 @@ case "$1" in
 		echo "Init only test"
     ./test_initonly.js
     ;;
+"cs") 
+		echo "CS freq test"
+    ./test_csfreq.js
+    ;;
+"spi") 
+		echo "SPI perf test"
+    ./test_spi.js
+    ;;
 *) echo "Normal test"
    ./test.js
    ;;
