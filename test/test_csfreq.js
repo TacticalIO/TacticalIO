@@ -9,6 +9,10 @@ var tio = TIO(config);
 
 if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
+	for (var i=0; i<1000; i++) {
+		tio.cs( { name: "GPIO64-1", enable: true });
+		tio.cs( { name: "GPIO64-1", enable: false });
+	}
 	tio.end();
 	debug('All pins unexported');
 } else {
