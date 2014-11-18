@@ -1,8 +1,11 @@
 #!/usr/local/bin/node
 
 var fs = require('fs'),
+	spawn = require('child_process').spawn,
 	debug = require('debug')('TIO-test'),
 	TIO = require('../index').TIO;
+
+spawn('ionice', ['-c3', '-p', process.pid]);
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 var tio = TIO(config);
