@@ -3,4 +3,4 @@
 REMOTE=$1
 ssh ${REMOTE} mkdir -p /opt/TacticalIO
 scp -r ./test ./lib ./index.js ./package.json ${REMOTE}:/opt/TacticalIO
-ssh ${REMOTE} "cd /opt/TacticalIO; npm install"
+#ssh ${REMOTE} "cd /opt/TacticalIO; npm install"

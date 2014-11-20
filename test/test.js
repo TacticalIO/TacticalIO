@@ -5,7 +5,7 @@ var fs = require('fs'),
 	debug = require('debug')('TIO-test'),
 	TIO = require('../index').TIO;
 
-spawn('ionice', ['-c3', '-p', process.pid]);
+//spawn('ionice', ['-c3', '-p', process.pid]);
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 var tio = TIO(config);
