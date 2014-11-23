@@ -6,10 +6,6 @@ var fs = require('fs'),
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 var tio = TIO(config);
-var buf128 = new Buffer(128);
-buf128.fill(0x13);
-var bufHel = new Buffer(3);
-bufHel.fill(0x31);
 
 if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
@@ -49,13 +45,17 @@ if (tio) {
 	var clock = tio.getClock({ id : 'AIO12-1' });
 	console.timeEnd('get clock');
 
-	tio.writeAnalog({ name: 'AO00', value: 5*Math.sin(i*2*Math.PI), when: clock + 1500 });
+	debug('clock value: ' + clock);
+
+  // delayed write
+	tio.writeAnalog({ name: 'AO00', value: 5, when: new Date().getTime() + 1500 });
+	debug('analog write with delay: command sent');
 
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
-	}, 1600*1.024);
+		process.exit(0);
+	}, 1600);
 } else {
 	debug('TIO not initialized');
 }
-process.exit(0);

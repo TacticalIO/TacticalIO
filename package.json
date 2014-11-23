@@ -14,7 +14,7 @@
     "mongodb": "^2.0.6",
     "mqtt": "^0.3.12",
     "my-ip": "^1.1.1",
-    "onoff": "^0.3.2",
+    "onoff": "vandrito/onoff",
     "performance-now": "^0.2.0",
     "rpio": "vandrito/node-rpio"
   },

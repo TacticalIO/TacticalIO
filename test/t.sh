@@ -14,6 +14,10 @@ case "$1" in
 		echo "SPI perf test"
     ./test_spi.js
     ;;
+"aio") 
+    echo "AIO test"
+    ./test_aio.js
+    ;;
 *) echo "Normal test"
    ./test.js
    ;;
