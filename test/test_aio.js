@@ -49,18 +49,17 @@ if (tio) {
 
 	// read 
 	console.time('read AI00');
+	tio.on('AI00', function(value) {
+		console.timeEnd('read AI00');
+		debug('AI00= ' + value);
+	});
+
 	console.time('read AIO');
 	tio.readAIO12Analog8({
  		id : 'AIO12-1',
  		when: 0
 	});
 	console.timeEnd('read AIO');
-
-	var ai00 = tio.readAnalog({
- 		name : 'AI00'
-	});
-	console.timeEnd('read AI00');
-	debug('AI00= ' + ai00);
 
   // delayed write
 	tio.writeAnalog({ name: 'AO00', value: 5, when: new Date().getTime() + 1500 });
