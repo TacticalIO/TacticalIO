@@ -62,7 +62,7 @@ if (tio) {
 	console.timeEnd('read AIO');
 
   // delayed write
-	tio.writeAnalog({ name: 'AO00', value: 5, when: new Date().getTime() + 1500 });
+	tio.writeAnalog({ name: 'AO00', value: 5, when: Date.now() + 1500 });
 	debug('analog write with delay: command sent');
 
 	setTimeout(function() {
