@@ -22,7 +22,7 @@ if (tio) {
 	console.timeEnd('clock reset');
 
 	console.time('board id');
-	var aio_id = tio.iid( { id: 'AIO12-1'});
+	var aio_id = tio.typeId( { id: 'AIO12-1'});
 	console.timeEnd('board id');	
 	console.log('AIO12-1 FPGA id: ', aio_id);
 
@@ -46,6 +46,18 @@ if (tio) {
 	console.timeEnd('get clock');
 
 	debug('clock value: ' + clock);
+
+	// read 
+	console.time('read AI00');
+	tio.readAIO12Analog8({
+ 		id : 'AIO12-1'
+	});
+
+	var ai00 = tio.readAnalog({
+ 		name : 'AI00'
+	});
+	console.timeEnd('read AI00');
+	debug('AI00= ' + ai00);
 
   // delayed write
 	tio.writeAnalog({ name: 'AO00', value: 5, when: new Date().getTime() + 1500 });
