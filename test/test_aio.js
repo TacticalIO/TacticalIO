@@ -49,9 +49,12 @@ if (tio) {
 
 	// read 
 	console.time('read AI00');
+	console.time('read AIO');
 	tio.readAIO12Analog8({
- 		id : 'AIO12-1'
+ 		id : 'AIO12-1',
+ 		when: 0
 	});
+	console.timeEnd('read AIO');
 
 	var ai00 = tio.readAnalog({
  		name : 'AI00'
