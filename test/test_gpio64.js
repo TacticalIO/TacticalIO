@@ -11,14 +11,25 @@ if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
 
 	var on = false;
-	console.time('1000x on/off GPIO64 out');
+	console.time('1000x W GPIO64 out (bits)');
 	for (var i=0; i<1000; i++) {
-		on = !on;
-		for (var c = 16; c < 48; c++) {
-			tio.writeDigital({ name: 'DO'+c, value:  on });
-		}
+		tio.writeGPIO64Digital32({ id: 'GPIO64-1', values: '10101010101010101010101010101010' });
 	}
-	console.timeEnd('1000x on/off GPIO64 out');
+	console.timeEnd('1000x W GPIO64 out (bits)');
+
+	console.time('1000x W GPIO64 out (array)');
+	for (var i=0; i<1000; i++) {
+		tio.writeGPIO64Digital32({ id: 'GPIO64-1', 
+			values: [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0] });
+	}
+	console.timeEnd('1000x W GPIO64 out (array)');
+
+	console.time('1000x W GPIO64 out (number)');
+	for (var i=0; i<1000; i++) {
+		tio.writeGPIO64Digital32({ id: 'GPIO64-1', 
+			values: 2863311530 });
+	}
+	console.timeEnd('1000x W GPIO64 out (number)');
 
 	console.time('1000x on/off GPIO64 1x out');
 	for (var i=0; i<1000; i++) {
