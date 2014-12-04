@@ -18,6 +18,10 @@ case "$1" in
     echo "AIO test"
     ./test_aio.js
     ;;
+"32io") 
+    echo "GPIO32 test"
+    ./test_gpio32.js
+    ;;
 "64io") 
     echo "GPIO64 test"
     ./test_gpio64.js
