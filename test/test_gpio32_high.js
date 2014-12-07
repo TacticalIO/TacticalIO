@@ -32,7 +32,7 @@ if (tio) {
 	console.timeEnd('1x W GPIO32 reset out');
 
 	console.time('1x W GPIO32 out (pattern)');
-	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: '1010101010101010' });
+	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: '1111111111111111' });
 	console.timeEnd('1x W GPIO32 out (pattern)');
 
 	console.time('GPIO32 set leds');

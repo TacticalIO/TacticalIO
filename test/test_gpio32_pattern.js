@@ -27,23 +27,27 @@ if (tio) {
 	console.timeEnd('board id');	
 	console.log('GPIO32-1 FPGA id: ', gpio_id);
 
-	console.time('1x W GPIO32 reset out');
-	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: 0 });
-	console.timeEnd('1x W GPIO32 reset out');
+	tio.setDigitalPattern({
+		name: 'DO00',
+		pattern: 0xAA
+	});
 
-	console.time('1x W GPIO32 out (pattern)');
-	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: '1010101010101010' });
-	console.timeEnd('1x W GPIO32 out (pattern)');
+	tio.setDigitalFreq({
+		name: 'DO00',
+		freq: 300,
+		offset: 90
+	});
 
 	console.time('GPIO32 set leds');
-	tio.leds({ id: 'GPIO32-1', led1: 1, led2: 0, led3: 1 });
+	tio.leds({ id: 'GPIO32-1', led1: 1, led2: 1, led3: 1 });
 	console.timeEnd('GPIO32 set leds');
 
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
 		process.exit(0);
-	}, 100);
+	}, 20000);
+
 } else {
 	debug('TIO not initialized');
 }

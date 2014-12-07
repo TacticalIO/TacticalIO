@@ -46,3 +46,25 @@ debug('GPIO64_WRITE_CTRL_BYTE & GPIO64_CS[0] = ', (GPIO64_CS[0]&GPIO64_WRITE_CTR
 debug('GPIO64_WRITE_CTRL_BYTE & GPIO64_CS[1] = ', (GPIO64_CS[1]&GPIO64_WRITE_CTRL_BYTE).toString(2));
 debug('GPIO64_WRITE_CTRL_BYTE & GPIO64_CS[2] = ', (GPIO64_CS[2]&GPIO64_WRITE_CTRL_BYTE).toString(2));
 debug('GPIO64_WRITE_CTRL_BYTE & GPIO64_CS[3] = ', (GPIO64_CS[3]&GPIO64_WRITE_CTRL_BYTE).toString(2));
+
+debug('255= b(255, 0, 16, 16)', b(255, 0, 16, 16));
+assert.equal(b(255, 0, 16, 16), 255);
+debug('43690= 1010101010101010', b('1010101010101010', 0, 16, 16));
+assert.equal(43690, b('1010101010101010', 0, 16, 16));
+
+// crazy programming made in Canada
+var time_buf = new ArrayBuffer(4);
+var time_32bits = new Uint32Array(time_buf);
+var time_8bits = new Uint8Array(time_buf);
+
+time_32bits[0] = 143434300;
+
+var crazyBuf = new Buffer(4);
+crazyBuf.writeUInt8(time_8bits[3], 0);
+crazyBuf.writeUInt8(time_8bits[2], 1);
+crazyBuf.writeUInt8(time_8bits[1], 2);
+crazyBuf.writeUInt8(time_8bits[0], 3);
+
+var nonCrazyBuf = new Buffer(4);
+nonCrazyBuf.writeUInt32BE(143434300, 0);
+debug('crazy vs non crazy', crazyBuf, nonCrazyBuf);

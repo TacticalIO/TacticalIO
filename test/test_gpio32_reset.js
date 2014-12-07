@@ -31,19 +31,16 @@ if (tio) {
 	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: 0 });
 	console.timeEnd('1x W GPIO32 reset out');
 
-	console.time('1x W GPIO32 out (pattern)');
-	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: '1010101010101010' });
-	console.timeEnd('1x W GPIO32 out (pattern)');
-
-	console.time('GPIO32 set leds');
-	tio.leds({ id: 'GPIO32-1', led1: 1, led2: 0, led3: 1 });
-	console.timeEnd('GPIO32 set leds');
+	console.time('GPIO32 reset leds');
+	tio.leds({ id: 'GPIO32-1', led1: 0, led2: 0, led3: 0 });
+	console.timeEnd('GPIO32 reset leds');
 
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
 		process.exit(0);
 	}, 100);
+
 } else {
 	debug('TIO not initialized');
 }

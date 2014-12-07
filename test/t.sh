@@ -18,6 +18,14 @@ case "$1" in
     echo "AIO test"
     ./test_aio.js
     ;;
+"aio-s") 
+    echo "AIO test sin"
+    ./test_aio_sin.js
+    ;;
+"aio-r") 
+    echo "AIO test reset"
+    ./test_aio_reset.js
+    ;;
 "aio5-5") 
     echo "AIO test (+5V/-5V pattern)"
     ./test_aio_5-5.js
@@ -25,6 +33,22 @@ case "$1" in
 "32io") 
     echo "GPIO32 test"
     ./test_gpio32.js
+    ;;
+"32io-b") 
+    echo "GPIO32 test static pattern"
+    ./test_gpio32_1_0.js
+    ;;
+"32io-p") 
+    echo "GPIO32 test dynamic pattern"
+    ./test_gpio32_pattern.js
+    ;;
+"32io-h") 
+    echo "GPIO32 test high"
+    ./test_gpio32_high.js
+    ;;
+"32io-r") 
+    echo "GPIO32 test reset"
+    ./test_gpio32_reset.js
     ;;
 "64io") 
     echo "GPIO64 test"
@@ -46,7 +70,6 @@ case "$1" in
     echo "GPIO64 test (reset out)"
     ./test_gpio64_resetout.js
     ;;
-*) echo "Normal test"
-   ./test.js
+*) echo "No test"
    ;;
 esac

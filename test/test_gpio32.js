@@ -25,20 +25,20 @@ if (tio) {
 
 	console.time('1000x W GPIO32 out (bits)');
 	for (var i=0; i<1000; i++) {
-		tio.writeGPIO32Digital16({ id: 'GPIO32-1', values: '1010101010101010' });
+		tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: '1010101010101010' });
 	}
 	console.timeEnd('1000x W GPIO32 out (bits)');
 
 	console.time('1000x W GPIO32 out (array)');
 	for (var i=0; i<1000; i++) {
-		tio.writeGPIO32Digital16({ id: 'GPIO32-1', 
+		tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', 
 			values: [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0] });
 	}
 	console.timeEnd('1000x W GPIO32 out (array)');
 
 	console.time('1000x W GPIO32 out (number)');
 	for (var i=0; i<1000; i++) {
-		tio.writeGPIO32Digital16({ id: 'GPIO32-1', 
+		tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', 
 			values: 43690 });
 	}
 	console.timeEnd('1000x W GPIO32 out (number)');
@@ -65,7 +65,7 @@ if (tio) {
 	});
 
 	console.time('read GPIO32');
-	tio.readGPIO32Digital16({
+	tio.readHSGPIO32Digital16({
  		id : 'GPIO32-1'
 	});
 	console.timeEnd('read GPIO32');

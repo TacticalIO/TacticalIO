@@ -5,7 +5,7 @@ var fs = require('fs'),
 	TIO = require('../index').TIO;
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
-config.ioCfgFile = './data/gpio32_io.json';
+config.ioCfgFile = './data/aio12_io.json';
 var tio = TIO(config);
 
 if (tio) {
@@ -23,27 +23,26 @@ if (tio) {
 	console.timeEnd('clock reset');
 
 	console.time('board id');
-	var gpio_id = tio.typeId( { id: 'GPIO32-1'});
+	var aio_id = tio.typeId( { id: 'AIO12-1'});
 	console.timeEnd('board id');	
-	console.log('GPIO32-1 FPGA id: ', gpio_id);
+	console.log('AIO12-1 FPGA id: ', aio_id);
 
-	console.time('1x W GPIO32 reset out');
-	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: 0 });
-	console.timeEnd('1x W GPIO32 reset out');
-
-	console.time('1x W GPIO32 out (pattern)');
-	tio.writeHSGPIO32Digital16({ id: 'GPIO32-1', values: '1010101010101010' });
-	console.timeEnd('1x W GPIO32 out (pattern)');
-
-	console.time('GPIO32 set leds');
-	tio.leds({ id: 'GPIO32-1', led1: 1, led2: 0, led3: 1 });
-	console.timeEnd('GPIO32 set leds');
+	var t=0;
+	var sinTimer = setInterval(function() {
+		var y = 5*Math.sin(t*2*Math.PI);
+		tio.writeAnalog({ name: 'AO00', value: y, when: 0 });
+		tio.writeAnalog({ name: 'AO01', value: y, when: 0 });
+		tio.writeAnalog({ name: 'AO02', value: y, when: 0 });
+		tio.writeAnalog({ name: 'AO03', value: y, when: 0 });
+		t += 0.01;
+	}, 10);
 
 	setTimeout(function() {
+		clearInterval(sinTimer);
 		tio.end();
 		debug('All pins unexported');
 		process.exit(0);
-	}, 100);
+	}, 20000);
 } else {
 	debug('TIO not initialized');
 }
