@@ -46,18 +46,18 @@ if (tio) {
 	console.time('1000x on/off GPIO32 1x out');
 	for (var i=0; i<1000; i++) {
 		on = !on;
-		tio.writeDigital({ name: 'DO16', value:  on });
+		tio.writeDigital({ name: 'DO08', value:  on });
 	}
 	console.timeEnd('1000x on/off GPIO32 1x out');
 
 	// read 
-	console.time('read DI16');
-	tio.on('DI16', function(value) {
-		console.timeEnd('read DI16');
-		debug('DI16= ' + value);
+	console.time('read DI08');
+	tio.on('DI08', function(value) {
+		console.timeEnd('read DI08');
+		debug('DI08= ' + value);
 
 		setTimeout(function() {
-				debug('DI16= ' + tio.ds.get('TIO.DI16'));
+				debug('DI08= ' + tio.ds.get('TIO.DI08'));
 				tio.end();
 				debug('All pins unexported');
 				process.exit(0);

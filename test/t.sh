@@ -50,6 +50,14 @@ case "$1" in
     echo "GPIO32 test reset"
     ./test_gpio32_reset.js
     ;;
+"32io-rw") 
+    echo "GPIO32 test read/write"
+    ./test_gpio32_rw.js
+    ;;
+"32io-wat") 
+    echo "GPIO32 test read/write"
+    ./test_gpio32_wat.js $2
+    ;;
 "64io") 
     echo "GPIO64 test"
     ./test_gpio64.js
