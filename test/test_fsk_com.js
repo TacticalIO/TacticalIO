@@ -7,7 +7,7 @@ var fs = require('fs'),
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 config.ioCfgFile = './data/fskcom_io.json';
 var tio = TIO(config);
-
+var buf = new Buffer([ 0x12, 0x13, 0x13, 0x12, 0x11, 0x10, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03 ]);
 if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
 
@@ -16,9 +16,13 @@ if (tio) {
 	console.timeEnd('FSKCOM write leds');
 
 	console.time('Write COM1');
+	tio.enableComTX({ name: 'COM1', enable: 1 });
+	tio.writeCom({ name: 'COM1', data: buf });
 	console.timeEnd('Write COM1');
 
 	console.time('Write COM2');
+	tio.enableComTX({ name: 'COM2', enable: 1 });
+	tio.writeCom({ name: 'COM2', data: buf });
 	console.timeEnd('Write COM2');
 
 	setTimeout(function() {

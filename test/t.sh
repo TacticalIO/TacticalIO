@@ -62,6 +62,14 @@ case "$1" in
     echo "GPIO32 test write at ..."
     ./test_gpio32_wat.js $2
     ;;
+"com") 
+    echo "FSKCOM test COM"
+    ./test_fsk_com.js
+    ;;
+"fsk") 
+    echo "FSKCOM test FSK"
+    ./test_fsk_fsk.js
+    ;;
 "64io") 
     echo "GPIO64 test"
     ./test_gpio64.js
