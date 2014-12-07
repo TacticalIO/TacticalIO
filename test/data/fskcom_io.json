@@ -24,6 +24,7 @@
 					"link": "RS232",
 					"speed": 9600,
 					"parity": 0, 
+					"start": 1,
 					"stop": 1, 
 					"len": 8
 			}]

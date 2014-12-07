@@ -19,18 +19,31 @@ var buf = new Buffer([0x8D, 0xEF, 0xF2, 0x38, 0x2D, 0x07, 0x0B, 0xA4, 0x43, 0xE8
 if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
 
+	console.time('TIO stack hardware reset');
+	tio.hwReset();
+	console.timeEnd('TIO stack hardware reset');
+
+	console.time('TIO stack sync clock hardware reset');
+	tio.hwSyncReset();
+	console.timeEnd('TIO stack sync clock hardware reset');
+
+	console.time('clock reset');
+	tio.resetClock();
+	console.timeEnd('clock reset');
+
+	console.time('board id');
+	var fsk_id = tio.typeId( { id: 'FSKCOM-1'});
+	console.timeEnd('board id');	
+	debug('FSKCOM-1 FPGA id: ', fsk_id);
+
+	console.time('get clock');
+	var clock = tio.getClock({ id : 'FSKCOM-1' });
+	console.timeEnd('get clock');
+
 	console.time('FSKCOM write leds');
-	tio.leds({ id: 'FSKCOM-1', led1: 1, led2: 1, led3: 0 });
+	tio.leds({ id: 'FSKCOM-1', led1: 0, led2: 0, led3: 0 });
 	console.timeEnd('FSKCOM write leds');
-
-	console.time('Write FSK1');
-	tio.writeFSK({ name: 'FSK1', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
-	console.timeEnd('Write FSK1');
-
-	console.time('Write FSK2');
-	tio.writeFSK({ name: 'FSK2', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
-	console.timeEnd('Write FSK2');
-
+	
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
