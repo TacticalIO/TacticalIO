@@ -39,6 +39,7 @@
 		"cs": 1,
 		"mux": [0, 0, 0], 
 		"type": "HS-AIO12",
+		"triggerThreshold": 3,
 		"AI": {
 			"commandType": "FPGA-SPI",
 			"channels": 8

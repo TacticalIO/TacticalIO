@@ -1,0 +1,71 @@
+{
+	"AIO12-1": {
+		"id": "AIO12-1",
+		"cs": 0,
+		"mux": [0, 0, 0], 
+		"type": "HS-AIO12",
+		"triggerThreshold": 3,
+		"AI": {
+			"commandType": "FPGA-SPI",
+			"channels": 8
+		},
+		"AO": {
+			"commandType": "FPGA-SPI",
+			"channels": 4
+		}
+	}, 
+	"CPU": {
+		"id": "CPU",
+		"spi_master": true,
+		"mux": [0, 0, 0], 
+		"type": "CPU-RPI",
+		"DI": {
+			"commandType": "CPU-GPIO",
+			"channels": [{
+				"pin": 40
+			}, {
+				"pin": 38
+			}, {
+				"pin": 37
+			}, {
+				"pin": 36
+			}]
+		},
+		"DO": {
+			"commandType": "CPU-GPIO",
+			"channels": [{
+				"pin": 33
+			}, {
+				"pin": 35
+			}]
+		},
+		"CSMUX": {
+			"channels": [{
+				"pin": 29
+			}, {
+				"pin": 31
+			}, {
+				"pin": 32
+			}]
+		},
+		"CS": {
+			"channels": [{
+				"pin": 12
+			}, {
+				"pin": 13
+			}, {
+				"pin": 15
+			},{
+				"pin": 16
+			}, {
+				"pin": 18
+			}, {
+				"pin": 22
+			},{
+				"pin": 24
+			}, {
+				"pin": 26
+			}]
+		}
+	}
+}

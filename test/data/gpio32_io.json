@@ -1,0 +1,71 @@
+{ 
+	"GPIO32-1": {
+		"id": "GPIO32-1",
+		"cs": 0,
+		"mux": [0, 0, 0], 
+		"type": "HS-GPIO32",
+		"pulseGenerationEnabled": [0, 1, 2, 3],
+		"DI": {
+			"commandType": "FPGA-SPI",
+			"channels": 16
+		},
+		"DO": {
+			"commandType": "FPGA-SPI",
+			"channels": 16
+		}
+	}, 
+	"CPU": {
+		"id": "CPU",
+		"spi_master": true,
+		"mux": [0, 0, 0], 
+		"type": "CPU-RPI",
+		"DI": {
+			"commandType": "CPU-GPIO",
+			"channels": [{
+				"pin": 40
+			}, {
+				"pin": 38
+			}, {
+				"pin": 37
+			}, {
+				"pin": 36
+			}]
+		},
+		"DO": {
+			"commandType": "CPU-GPIO",
+			"channels": [{
+				"pin": 33
+			}, {
+				"pin": 35
+			}]
+		},
+		"CSMUX": {
+			"channels": [{
+				"pin": 29
+			}, {
+				"pin": 31
+			}, {
+				"pin": 32
+			}]
+		},
+		"CS": {
+			"channels": [{
+				"pin": 12
+			}, {
+				"pin": 13
+			}, {
+				"pin": 15
+			},{
+				"pin": 16
+			}, {
+				"pin": 18
+			}, {
+				"pin": 22
+			},{
+				"pin": 24
+			}, {
+				"pin": 26
+			}]
+		}
+	}
+}

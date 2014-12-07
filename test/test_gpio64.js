@@ -5,6 +5,8 @@ var fs = require('fs'),
 	TIO = require('../index').TIO;
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
+config.ioCfgFile = './data/gpio64_io.json';
+
 var tio = TIO(config);
 
 if (tio) {
@@ -12,8 +14,12 @@ if (tio) {
 
 	var on = false;
 
-	for (var cc = 16; cc < 48; cc++) {
-		tio.ds.set('TIO.DO'+cc, Math.round(Math.random()));
+	for (var cc = 0; cc < 32; cc++) {
+		var o = Math.round(Math.random());
+
+		var paddedCounter = String('00' + cc).slice(-2);
+		tio.ds.set('TIO.DO'+paddedCounter, o);
+		debug('TIO.DO'+paddedCounter+ '= ' + o)
 	}
 
 	console.time('1000x W GPIO64 out (data)');
@@ -48,6 +54,10 @@ if (tio) {
 		tio.writeDigital({ name: 'DO16', value:  on });
 	}
 	console.timeEnd('1000x on/off GPIO64 1x out');
+
+	// reset outputs
+	tio.writeGPIO64Digital32({ id: 'GPIO64-1', 
+		values: 0 });
 
 	// read 
 	console.time('read DI16');

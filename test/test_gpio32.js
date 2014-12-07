@@ -5,6 +5,7 @@ var fs = require('fs'),
 	TIO = require('../index').TIO;
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
+config.ioCfgFile = './data/gpio32_io.json';
 var tio = TIO(config);
 
 if (tio) {
