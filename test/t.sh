@@ -30,6 +30,10 @@ case "$1" in
     echo "AIO test (+5V/-5V pattern)"
     ./test_aio_5-5.js
     ;;
+"aio-wat") 
+    echo "AIO test write at ..."
+    ./test_aio_wat.js $2
+    ;;
 "32io") 
     echo "GPIO32 test"
     ./test_gpio32.js
@@ -55,7 +59,7 @@ case "$1" in
     ./test_gpio32_rw.js
     ;;
 "32io-wat") 
-    echo "GPIO32 test read/write"
+    echo "GPIO32 test write at ..."
     ./test_gpio32_wat.js $2
     ;;
 "64io") 
