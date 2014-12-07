@@ -64,7 +64,7 @@ case "$1" in
     ;;
 "64io-h") 
     echo "GPIO64 test (all high)"
-    ./test_gpio64_1_1.js
+    ./test_gpio64_high.js
     ;;
 "64io-r") 
     echo "GPIO64 test (reset out)"
