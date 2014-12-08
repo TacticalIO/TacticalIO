@@ -74,6 +74,10 @@ case "$1" in
     echo "FSKCOM test reset"
     ./test_fsk_reset.js
     ;;
+"fsk-n") 
+    echo "FSKCOM test no send"
+    ./test_fsk_nofsk.js
+    ;;
 "64io") 
     echo "GPIO64 test"
     ./test_gpio64.js

@@ -23,18 +23,6 @@ if (tio) {
 	tio.leds({ id: 'FSKCOM-1', led1: 1, led2: 1, led3: 0 });
 	console.timeEnd('FSKCOM write leds');
 
-	console.time('Write FSK1');
-	tio.writeFSK({ name: 'FSK1', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
-	console.timeEnd('Write FSK1');
-
-	console.time('Write FSK2');
-	tio.writeFSK({ name: 'FSK2', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
-	console.timeEnd('Write FSK2');
-
-	console.time('Write FSK2');
-	tio.writeFSK({ name: 'FSK2', data: buf });
-	console.timeEnd('Write FSK2');
-
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
