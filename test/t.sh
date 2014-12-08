@@ -94,6 +94,10 @@ case "$1" in
     echo "GPIO64 test (reset out)"
     ./test_gpio64_resetout.js
     ;;
+"64io-rd") 
+    echo "GPIO64 test read"
+    ./test_gpio64_read.js
+    ;;
 *) echo "No test"
    ;;
 esac

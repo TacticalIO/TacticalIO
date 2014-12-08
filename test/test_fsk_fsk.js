@@ -31,6 +31,10 @@ if (tio) {
 	tio.writeFSK({ name: 'FSK2', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
 	console.timeEnd('Write FSK2');
 
+	console.time('Write FSK2');
+	tio.writeFSK({ name: 'FSK2', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
+	console.timeEnd('Write FSK2');
+
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
