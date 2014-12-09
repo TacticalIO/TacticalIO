@@ -1,13 +1,7 @@
 {
-	"ADC": {
-		"id": "ADC",
-		"cs": 1,
-		"mux": [0, 1, 0], 
-		"type": "HS-AIO12-ADC"
-	}, 
 	"GPIO64-1": {
 		"id": "GPIO64-1",
-		"cs": 3, 
+		"cs": 0, 
 		"mux": [0, 0, 0], 
 		"type": "GPIO64",
 		"DI": {
@@ -21,7 +15,7 @@
 	}, 
 	"GPIO32-1": {
 		"id": "GPIO32-1",
-		"cs": 2,
+		"cs": 1,
 		"mux": [0, 0, 0], 
 		"type": "HS-GPIO32",
 		"pulseGenerationEnabled": [0, 1, 2, 3],
@@ -33,10 +27,10 @@
 			"commandType": "FPGA-SPI",
 			"channels": 16
 		}
-	}, 
+	, 
 	"AIO12-1": {
 		"id": "AIO12-1",
-		"cs": 1,
+		"cs": 2,
 		"mux": [0, 0, 0], 
 		"type": "HS-AIO12",
 		"triggerThreshold": 3,
@@ -51,25 +45,30 @@
 	}, 
 	"FSKCOM-1": {
 		"id": "FSKCOM-1",
-		"cs": 0,
+		"cs": 3,
 		"mux": [0, 0, 0], 
 		"type": "HS-FSKCOM",
 		"FSK": {
+			"f0": 3954000,
+			"f1": 4519000,
+			"bitrate": 564900,
 			"commandType": "FPGA-SPI",
-			"channels": [{
-				"f0": 3954000,
-				"f": 4519000
-			}, {
-				"f0": 3954000,
-				"f": 4519000
-			}]
+			"channels": 2
 		},
 		"COM": {
 			"commandType": "FPGA-SPI",
 			"channels": [{
-					"protocol": "RS485"
-				}, {
-					"protocol": "RS232"
+					"link": "RS232",
+					"speed": 9600,
+					"parity": 0, 
+					"stop": 1, 
+					"len": 8
+			},{
+					"link": "RS485",
+					"speed": 57600,
+					"parity": 0, 
+					"stop": 1, 
+					"len": 8
 			}]
 		}
 	}, 
