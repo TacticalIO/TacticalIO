@@ -4,6 +4,15 @@ var fs = require('fs'),
 	debug = require('debug')('TIO-test'),
 	TIO = require('../index').TIO;
 
+function sleep(milliseconds) {
+  var start = Date.now();
+  for (var i = 0; i < 1e7; i++) {
+    if ((Date.now() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 config.ioCfgFile = './data/fskcom_io.json';
 var tio = TIO(config);
@@ -38,7 +47,7 @@ if (tio) {
 	}
 	console.timeEnd('1000x Write COM2');
 
-
+	sleep(1000);
 	tio.enableComTX({ name: 'COM1', enable: 0 });
 	tio.enableComTX({ name: 'COM2', enable: 0 });
 
