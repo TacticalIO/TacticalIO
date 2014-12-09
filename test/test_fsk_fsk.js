@@ -35,6 +35,18 @@ if (tio) {
 	tio.writeFSK({ name: 'FSK2', data: buf });
 	console.timeEnd('Write FSK2');
 
+	console.time('1000x Write FSK1');
+	for (var i = 0; i < 1000; i++) {
+		tio.writeFSK({ name: 'FSK1', data: buf });
+	}
+	console.timeEnd('1000x Write FSK1');
+
+	console.time('1000x Write FSK2');
+	for (var i = 0; i < 1000; i++) {
+		tio.writeFSK({ name: 'FSK2', data: buf });
+	}
+	console.timeEnd('1000x Write FSK2');
+
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
