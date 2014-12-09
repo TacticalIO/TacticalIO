@@ -26,6 +26,19 @@ if (tio) {
 	tio.writeCom({ name: 'COM2', data: buf });
 	console.timeEnd('Write COM2');
 
+	console.time('1000x Write COM1');
+	for (var i = 0; i < 1000; i++) {
+		tio.writeCom({ name: 'COM1', data: buf });
+	}
+	console.timeEnd('1000x Write COM1');
+
+	console.time('1000x Write COM2');
+	for (var i = 0; i < 1000; i++) {
+		tio.writeCom({ name: 'COM2', data: buf });
+	}
+	console.timeEnd('1000x Write COM2');
+
+
 	tio.enableComTX({ name: 'COM1', enable: 0 });
 	tio.enableComTX({ name: 'COM2', enable: 0 });
 
@@ -33,6 +46,7 @@ if (tio) {
 	console.time('Write COM2 - delayed');
 	tio.writeCom({ name: 'COM2', data: buf, when: Date.now() + 1500 });
 	console.timeEnd('Write COM2 - delayed');
+
 
 	setTimeout(function() {
 		tio.end();
