@@ -27,7 +27,7 @@
 			"commandType": "FPGA-SPI",
 			"channels": 16
 		}
-	, 
+	}, 
 	"AIO12-1": {
 		"id": "AIO12-1",
 		"cs": 2,
