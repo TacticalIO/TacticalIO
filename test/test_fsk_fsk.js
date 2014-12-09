@@ -4,6 +4,15 @@ var fs = require('fs'),
 	debug = require('debug')('TIO-test'),
 	TIO = require('../index').TIO;
 
+function sleep(milliseconds) {
+  var start = Date.now();
+  for (var i = 0; i < 1e7; i++) {
+    if ((Date.now() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 config.ioCfgFile = './data/fskcom_io.json';
 var tio = TIO(config);
@@ -35,15 +44,18 @@ if (tio) {
 	tio.writeFSK({ name: 'FSK2', data: buf });
 	console.timeEnd('Write FSK2');
 
+	sleep(5);
 	console.time('1000x Write FSK1');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeFSK({ name: 'FSK1', data: buf });
+		sleep(5);
 	}
 	console.timeEnd('1000x Write FSK1');
 
 	console.time('1000x Write FSK2');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeFSK({ name: 'FSK2', data: buf });
+		sleep(5);
 	}
 	console.timeEnd('1000x Write FSK2');
 
