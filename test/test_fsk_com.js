@@ -15,21 +15,30 @@ if (tio) {
 	tio.leds({ id: 'FSKCOM-1', led1: 1, led2: 1, led3: 1 });
 	console.timeEnd('FSKCOM write leds');
 
-	console.time('Write COM1');
 	tio.enableComTX({ name: 'COM1', enable: 1 });
+	tio.enableComTX({ name: 'COM2', enable: 1 });
+
+	console.time('Write COM1');
 	tio.writeCom({ name: 'COM1', data: buf });
 	console.timeEnd('Write COM1');
 
 	console.time('Write COM2');
-	tio.enableComTX({ name: 'COM2', enable: 1 });
 	tio.writeCom({ name: 'COM2', data: buf });
 	console.timeEnd('Write COM2');
+
+	tio.enableComTX({ name: 'COM1', enable: 0 });
+	tio.enableComTX({ name: 'COM2', enable: 0 });
+
+	debug('delay approx.: ', (Date.now() - tio.clockResetTime)*1.024);
+	console.time('Write COM2 - delayed');
+	tio.writeCom({ name: 'COM2', data: buf, when: Date.now() + 1500 });
+	console.timeEnd('Write COM2 - delayed');
 
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
 		process.exit(0);
-	}, 1000);
+	}, 5000);
 } else {
 	debug('TIO not initialized');
 }
