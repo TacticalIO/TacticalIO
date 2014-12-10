@@ -7,8 +7,12 @@ case "$1" in
     ./test_initonly.js
     ;;
 "cs") 
-		echo "CS freq test"
+	echo "CS freq test"
     ./test_csfreq.js
+    ;;
+"resetcs") 
+    echo "CS reset"
+    ./test_reset_cs.js
     ;;
 "spi") 
 		echo "SPI perf test"
