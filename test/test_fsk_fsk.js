@@ -48,14 +48,14 @@ if (tio) {
 	console.time('1000x Write FSK1');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeFSK({ name: 'FSK1', data: buf });
-		sleep(5);
+		sleep(10);
 	}
 	console.timeEnd('1000x Write FSK1');
 
 	console.time('1000x Write FSK2');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeFSK({ name: 'FSK2', data: buf });
-		sleep(5);
+		sleep(10);
 	}
 	console.timeEnd('1000x Write FSK2');
 
