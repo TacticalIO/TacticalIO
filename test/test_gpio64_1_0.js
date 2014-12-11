@@ -20,7 +20,7 @@ if (tio) {
 			tio.end();
 			debug('All pins unexported');
 			process.exit(0);
-		}, 60000);
+		}, 1000);
 
 } else {
 	debug('TIO not initialized');

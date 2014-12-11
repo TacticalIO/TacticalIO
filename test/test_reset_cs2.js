@@ -21,6 +21,8 @@ if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
 
 	tio.reset();
+	sleep(10);
+	tio.spiTransfer({ id : 'AIO12-1', data: new Buffer([0, 12, 12, 13, 11, 10])});
 
 	setTimeout(function() {
 		tio.end();

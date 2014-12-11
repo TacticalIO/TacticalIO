@@ -14,6 +14,10 @@ case "$1" in
     echo "CS reset"
     ./test_reset_cs.js
     ;;
+"cs2") 
+    echo "CS reset"
+    ./test_reset_cs2.js
+    ;;
 "spi") 
 		echo "SPI perf test"
     ./test_spi.js
@@ -81,6 +85,10 @@ case "$1" in
 "com-s") 
     echo "FSKCOM test COM single send"
     ./test_fsk_com_single.js
+    ;;
+"com-d") 
+    echo "FSKCOM test COM single send, delayed"
+    ./test_fsk_com_singledelayed.js
     ;;
 "fsk") 
     echo "FSKCOM test FSK"

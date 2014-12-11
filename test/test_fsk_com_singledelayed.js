@@ -23,44 +23,20 @@ var buf2 = new Buffer([ 0x0A, 0x0A, 0x0A, 0x0A, 0x0A, 0x0A, 0x0A, 0x0A, 0x0A, 0x
 if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
 
-	console.time('FSKCOM write leds');
-	tio.leds({ id: 'FSKCOM-1', led1: 1, led2: 1, led3: 1 });
-	console.timeEnd('FSKCOM write leds');
-
-	tio.enableComTX({ name: 'COM1', enable: 1 });
-	tio.enableComTX({ name: 'COM2', enable: 1 });
-	sleep(10);
-/*
-	console.time('Write COM2');
-	tio.writeCom({ name: 'COM2', data: buf });
-	console.timeEnd('Write COM2');
-
-	console.time('Write COM2');
-	tio.writeCom({ name: 'COM2', data: buf1 });
-	console.timeEnd('Write COM2');
-
-	console.time('Write COM2');
-	tio.writeCom({ name: 'COM2', data: buf });
-	console.timeEnd('Write COM2');
-	sleep(10); */
-
-	for (var i = 0; i < 255; i++) {
-		var bb = new Buffer([ 0x13 ]);
-		tio.writeCom({ name: 'COM2', data: bb });
-		sleep(200);
-	}
-	sleep(10);
+	tio.enableComTX({ name: 'COM1', enable: 0 });
 	tio.enableComTX({ name: 'COM2', enable: 0 });
-	debug('delay approx.: ', (Date.now() - tio.clockResetTime)/1.024);
+	sleep(10);
+
+	debug('delay approx.: ', (Date.now() + 1500 - tio.clockResetTime)/1.024);
 	console.time('Write COM2 - delayed');
-	tio.writeCom({ name: 'COM2', data: buf, when: Date.now() + 8500 });
+	tio.writeCom({ name: 'COM2', data: buf1, when: Date.now() + 1500 });
 	console.timeEnd('Write COM2 - delayed');
 
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');
 		process.exit(0);
-	}, 9000);
+	}, 2000);
 } else {
 	debug('TIO not initialized');
 }

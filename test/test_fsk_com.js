@@ -26,32 +26,38 @@ if (tio) {
 
 	tio.enableComTX({ name: 'COM1', enable: 1 });
 	tio.enableComTX({ name: 'COM2', enable: 1 });
+	sleep(10);
 
 	console.time('Write COM1');
 	tio.writeCom({ name: 'COM1', data: buf });
 	console.timeEnd('Write COM1');
+	sleep(10);
 
 	console.time('Write COM2');
 	tio.writeCom({ name: 'COM2', data: buf });
 	console.timeEnd('Write COM2');
+	sleep(10);
 
 	console.time('1000x Write COM1');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeCom({ name: 'COM1', data: buf });
+		sleep(10);
 	}
 	console.timeEnd('1000x Write COM1');
 
 	console.time('1000x Write COM2');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeCom({ name: 'COM2', data: buf });
+		sleep(10);
 	}
 	console.timeEnd('1000x Write COM2');
 
 	sleep(1000);
 	tio.enableComTX({ name: 'COM1', enable: 0 });
 	tio.enableComTX({ name: 'COM2', enable: 0 });
+	sleep(10);
 
-	debug('delay approx.: ', (Date.now() - tio.clockResetTime)*1.024);
+	debug('delay approx.: ', (Date.now() - tio.clockResetTime)/1.024);
 	console.time('Write COM2 - delayed');
 	tio.writeCom({ name: 'COM2', data: buf, when: Date.now() + 1500 });
 	console.timeEnd('Write COM2 - delayed');
