@@ -59,7 +59,7 @@ if (tio) {
 	console.timeEnd('Write COM2');
 	sleep(1000);
 
-	for (var i = 0; i < 255; i++) {
+	for (var i = 0; i < 256; i++) {
 		var bb = new Buffer([ i ]);
 		tio.writeCom({ name: 'COM2', data: bb });
 		sleep(200);
