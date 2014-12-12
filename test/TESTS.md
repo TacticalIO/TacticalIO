@@ -61,8 +61,8 @@ A.3.b. Non effectué
 A.3.c. Non effectué
 A.3.d. KO
 B.1. OK
-B.2. Problème sur pattern, attente de précisions. Non effectué
-B.3. Problème détecté, attente précision. Ne peut être déclaré KO
+B.2. Non effectué
+B.3. OK (l'erreur de précision n'est présente qu'en basse fréquence, donc c'est bon)
 C.1. Partiellement bon, mais problème de chute de tension qui peut se relever bloquant
 C.2. Attente du règlement de C.1.
 D.1. Non effectué
