@@ -26,7 +26,7 @@ if (tio) {
 		pattern: 0xAA
 	});
 
-	tio.setDigitalFreq([{
+	tio.setDigitalFreq2ch([{
 		name: 'DO00',
 		freq: 300,
 		offset: 90
