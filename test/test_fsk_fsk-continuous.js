@@ -14,7 +14,7 @@ function sleep(milliseconds) {
 }
 
 var period = 10;
-var voltage = 5000;
+var voltage = 4000;
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 //config.ioCfgFile = './data/fskcom_io.json';
 var tio = TIO(config);
