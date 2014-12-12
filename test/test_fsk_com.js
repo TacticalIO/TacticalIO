@@ -20,23 +20,6 @@ var buf = new Buffer([ 0x12, 0x13, 0x13, 0x12, 0x11, 0x10, 0x09, 0x08, 0x07, 0x0
 if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
 
-	console.time('FSKCOM write leds');
-	tio.leds({ id: 'FSKCOM-1', led1: 1, led2: 1, led3: 1 });
-	console.timeEnd('FSKCOM write leds');
-
-	tio.enableComTX({ name: 'COM1', enable: 1 });
-	tio.enableComTX({ name: 'COM2', enable: 1 });
-	sleep(10);
-
-	console.time('Write COM1');
-	tio.writeCom({ name: 'COM1', data: buf });
-	console.timeEnd('Write COM1');
-	sleep(10);
-
-	console.time('Write COM2');
-	tio.writeCom({ name: 'COM2', data: buf });
-	console.timeEnd('Write COM2');
-	sleep(10);
 
 	var frameSendTime = [];
 	console.time('1000x Write COM1');

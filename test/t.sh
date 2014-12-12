@@ -133,6 +133,7 @@ case "$1" in
 "real")
     echo "Full real situation simulated"
     ./test.js
+    ;;
 *) echo "No test"
    ;;
 esac
