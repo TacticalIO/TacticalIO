@@ -54,11 +54,9 @@ if (tio) {
 	}
 	console.timeEnd('1000x Write FSK1');
 
-	for (var i = 0; i < 1000; i++) {
-		if (i>0) {
-			if (frameSendTime[i] - frameSendTime[i-1] > 15) {
-				debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
-			}
+	for (var i = 1; i < 1000; i++) {
+		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}
 
@@ -71,11 +69,9 @@ if (tio) {
 	}
 	console.timeEnd('1000x Write FSK2');
 
-	for (var i = 0; i < 1000; i++) {
-		if (i>0) {
-			if (frameSendTime[i] - frameSendTime[i-1] > 15) {
-				debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
-			}
+	for (var i = 1; i < 1000; i++) {
+		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}
 

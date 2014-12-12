@@ -30,11 +30,9 @@ if (tio) {
 	}
 	console.timeEnd('1000x Write COM1');
 
-	for (var i = 0; i < 1000; i++) {
-		if (i>0) {
-			if (Math.abs(frameSendTime[i] - frameSendTime[i-1]) > 12) {
-				debug('frame delayed');
-			}
+	for (var i = 1; i < 1000; i++) {
+		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}
 
@@ -46,11 +44,9 @@ if (tio) {
 	}
 	console.timeEnd('1000x Write COM2');
 
-	for (var i = 0; i < 1000; i++) {
-		if (i>0) {
-			if (Math.abs(frameSendTime[i] - frameSendTime[i-1]) > 12) {
-				debug('frame delayed');
-			}
+	for (var i = 1; i < 1000; i++) {
+		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}
 
