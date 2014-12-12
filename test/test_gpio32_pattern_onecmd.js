@@ -28,11 +28,11 @@ if (tio) {
 
 	tio.setDigitalFreq2ch([{
 		name: 'DO00',
-		freq: 300,
+		freq: 13000,
 		offset: 90
 	}, {
 		name: 'DO02',
-		freq: 600,
+		freq: 20000,
 		offset: 90
 	}]);
 

@@ -31,6 +31,10 @@ if (tio) {
 	console.time('Write COM2 - delayed');
 	tio.writeCom({ name: 'COM2', data: buf1, when: Date.now() + 1500 });
 	console.timeEnd('Write COM2 - delayed');
+	
+	console.time('Write COM1 - delayed');
+	tio.writeCom({ name: 'COM1', data: buf1, when: Date.now() + 1500 });
+	console.timeEnd('Write COM1 - delayed');
 
 	setTimeout(function() {
 		tio.end();

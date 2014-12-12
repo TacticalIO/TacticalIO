@@ -46,3 +46,25 @@ Tous les tests ci-dessous sont à faire sur les deux ports.
 2. Analyser en particulier les performances
 
 Pour E. un fichier: ./test.js
+
+État 20141212 22:00:
+A.1.a. Inconnu
+A.1.b. Partiellement bon
+A.1.c. KO
+A.1.d. Inconnu (pour cause de trames collées, mains ne peut être déclaré KO)
+A.2.b. Partiellement bon
+A.2.c. KO
+A.2.d. Bon à 100ms, ne peut être déclaré OK
+===> A.3. avant modification en cours
+A.3.a. Partiel
+A.3.b. Non effectué
+A.3.c. Non effectué
+A.3.d. KO
+B.1. OK
+B.2. Problème sur pattern, attente de précisions. Non effectué
+B.3. Problème détecté, attente précision. Ne peut être déclaré KO
+C.1. Partiellement bon, mais problème de chute de tension qui peut se relever bloquant
+C.2. Attente du règlement de C.1.
+D.1. Non effectué
+D.2. Non effectué
+E. Non effectué, attente de règlement des points bloquants et du codage en cours
