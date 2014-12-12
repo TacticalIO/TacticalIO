@@ -13,6 +13,8 @@ function sleep(milliseconds) {
   }
 }
 
+var period = 10;
+var voltage = 5;
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 //config.ioCfgFile = './data/fskcom_io.json';
 var tio = TIO(config);
@@ -33,44 +35,44 @@ if (tio) {
 	console.timeEnd('FSKCOM write leds');
 
 	console.time('Write FSK1');
-	tio.writeFSK({ name: 'FSK1', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
+	tio.writeFSK({ name: 'FSK1', voltage: voltage, data: buf });
 	console.timeEnd('Write FSK1');
 
 	console.time('Write FSK2');
-	tio.writeFSK({ name: 'FSK2', voltage: tio.FSK_MAX_AMPLITUDE, data: buf });
+	tio.writeFSK({ name: 'FSK2', voltage: voltage, data: buf });
 	console.timeEnd('Write FSK2');
 
 	console.time('Write FSK2');
-	tio.writeFSK({ name: 'FSK2', data: buf });
+	tio.writeFSK({ name: 'FSK2', voltage: voltage, data: buf });
 	console.timeEnd('Write FSK2');
 
-	sleep(5);
+	sleep(2000);
 	var frameSendTime = [];
-	console.time('1000x Write FSK1');
+	console.time('1000x Write FSK2');
 	for (var i = 0; i < 1000; i++) {
-		tio.writeFSK({ name: 'FSK1', data: buf });
+		tio.writeFSK({ name: 'FSK2', voltage: voltage, data: buf });
 		frameSendTime.push(Date.now());
-		sleep(10);
+		sleep(period);
 	}
-	console.timeEnd('1000x Write FSK1');
+	console.timeEnd('1000x Write FSK2');
 
 	for (var i = 1; i < 1000; i++) {
-		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+		if (frameSendTime[i] - frameSendTime[i-1] > period + 2) {
 			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}
 
 	frameSendTime = [];
-	console.time('1000x Write FSK2');
+	console.time('1000x Write FSK1');
 	for (var i = 0; i < 1000; i++) {
-		tio.writeFSK({ name: 'FSK2', data: buf });
+		tio.writeFSK({ name: 'FSK1', data: buf, voltage: voltage, data: buf   });
 		frameSendTime.push(Date.now());
-		sleep(10);
+		sleep(period);
 	}
-	console.timeEnd('1000x Write FSK2');
+	console.timeEnd('1000x Write FSK1');
 
 	for (var i = 1; i < 1000; i++) {
-		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+		if (frameSendTime[i] - frameSendTime[i-1] > period + 2 ) {
 			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}

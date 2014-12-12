@@ -55,8 +55,8 @@ case "$1" in
     ./test_gpio32_pattern.js
     ;;
 "32io-po") 
-    echo "GPIO32 test dynamic pattern (one shot)"
-    ./test_gpio32_pattern_oneshot.js
+    echo "GPIO32 test dynamic pattern (single command)"
+    ./test_gpio32_pattern_onecmd.js
     ;;
 "32io-h") 
     echo "GPIO32 test high"

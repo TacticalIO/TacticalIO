@@ -16,7 +16,7 @@ if (tio) {
 	console.timeEnd('AIO write leds');
 
 	console.time('AIO write x1');
-	tio.writeAnalog({ name: 'AO'+process.argv[2], value: -5, when: 0 });
+	tio.writeAnalog({ name: 'AO'+process.argv[2], value: 5, when: 0 });
 	console.timeEnd('AIO write x1');
 
 	// read 

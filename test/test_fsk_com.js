@@ -26,12 +26,12 @@ if (tio) {
 	for (var i = 0; i < 1000; i++) {
 		tio.writeCom({ name: 'COM1', data: buf });
 		frameSendTime.push(Date.now());
-		sleep(10);
+		sleep(100);
 	}
 	console.timeEnd('1000x Write COM1');
 
 	for (var i = 1; i < 1000; i++) {
-		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+		if (frameSendTime[i] - frameSendTime[i-1] > 12) {
 			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}
@@ -40,12 +40,13 @@ if (tio) {
 	console.time('1000x Write COM2');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeCom({ name: 'COM2', data: buf });
+		frameSendTime.push(Date.now());
 		sleep(10);
 	}
 	console.timeEnd('1000x Write COM2');
 
 	for (var i = 1; i < 1000; i++) {
-		if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+		if (frameSendTime[i] - frameSendTime[i-1] > 12) {
 			debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
 		}
 	}
