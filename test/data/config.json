@@ -14,5 +14,5 @@
 		"rpctimeout": 100,
 		"datalog": "yes"
 	},
-	"ioCfgFile": "./data/io.json"
+	"ioCfgFile": "./data/io_v1.0.0.json"
 }

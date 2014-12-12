@@ -45,19 +45,39 @@ if (tio) {
 	console.timeEnd('Write FSK2');
 
 	sleep(5);
+	var frameSendTime = [];
 	console.time('1000x Write FSK1');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeFSK({ name: 'FSK1', data: buf });
+		frameSendTime.push(Date.now());
 		sleep(10);
 	}
 	console.timeEnd('1000x Write FSK1');
 
+	for (var i = 0; i < 1000; i++) {
+		if (i>0) {
+			if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+				debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
+			}
+		}
+	}
+
+	frameSendTime = [];
 	console.time('1000x Write FSK2');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeFSK({ name: 'FSK2', data: buf });
+		frameSendTime.push(Date.now());
 		sleep(10);
 	}
 	console.timeEnd('1000x Write FSK2');
+
+	for (var i = 0; i < 1000; i++) {
+		if (i>0) {
+			if (frameSendTime[i] - frameSendTime[i-1] > 15) {
+				debug('frame delayed', i, frameSendTime[i] - frameSendTime[i-1]);
+			}
+		}
+	}
 
 	setTimeout(function() {
 		tio.end();

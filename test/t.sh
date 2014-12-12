@@ -130,6 +130,9 @@ case "$1" in
     echo "GPIO64 test read"
     ./test_gpio64_read.js
     ;;
+"real")
+    echo "Full real situation simulated"
+    ./test.js
 *) echo "No test"
    ;;
 esac

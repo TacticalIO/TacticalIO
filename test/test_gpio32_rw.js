@@ -42,9 +42,7 @@ if (tio) {
 	});
 
 	console.time('read GPIO32');
-	tio.readHSGPIO32Digital16({
- 		id : 'GPIO32-1'
-	});
+	tio.readHSGPIO32Digital16({ id : 'GPIO32-1' });
 	console.timeEnd('read GPIO32');
 
 } else {

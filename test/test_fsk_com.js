@@ -38,19 +38,38 @@ if (tio) {
 	console.timeEnd('Write COM2');
 	sleep(10);
 
+	var frameSendTime = [];
 	console.time('1000x Write COM1');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeCom({ name: 'COM1', data: buf });
+		frameSendTime.push(Date.now());
 		sleep(10);
 	}
 	console.timeEnd('1000x Write COM1');
 
+	for (var i = 0; i < 1000; i++) {
+		if (i>0) {
+			if (Math.abs(frameSendTime[i] - frameSendTime[i-1]) > 12) {
+				debug('frame delayed');
+			}
+		}
+	}
+
+	frameSendTime = [];
 	console.time('1000x Write COM2');
 	for (var i = 0; i < 1000; i++) {
 		tio.writeCom({ name: 'COM2', data: buf });
 		sleep(10);
 	}
 	console.timeEnd('1000x Write COM2');
+
+	for (var i = 0; i < 1000; i++) {
+		if (i>0) {
+			if (Math.abs(frameSendTime[i] - frameSendTime[i-1]) > 12) {
+				debug('frame delayed');
+			}
+		}
+	}
 
 	sleep(1000);
 	tio.enableComTX({ name: 'COM1', enable: 0 });

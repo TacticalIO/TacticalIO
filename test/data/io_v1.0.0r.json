@@ -11,12 +11,10 @@
 		"DO": {
 			"channels": 16
 		}
-	}, 
-	"GPIO32-2": {
-		"id": "GPIO32-2",
-		"cs": 1,
-		"mux": [0, 0, 0], 
-		"type": "HS-GPIO32",
+	}, 	
+	"DUMMY-1": {
+		"id": "DUMMY-1",
+		"type": "DUMMY",
 		"DI": {
 			"channels": 16
 		},
@@ -26,7 +24,7 @@
 	}, 
 	"AIO12-1": {
 		"id": "AIO12-1",
-		"cs": 2,
+		"cs": 1,
 		"mux": [0, 0, 0], 
 		"type": "HS-AIO12",
 		"triggerThreshold": 3,
@@ -39,7 +37,7 @@
 	}, 
 	"FSKCOM-1": {
 		"id": "FSKCOM-1",
-		"cs": 3,
+		"cs": 2,
 		"mux": [0, 0, 0], 
 		"type": "HS-FSKCOM",
 		"FSK": {
@@ -49,6 +47,7 @@
 			"channels": 2
 		},
 		"COM": {
+			"commandType": "FPGA-SPI",
 			"channels": [{
 					"link": "RS232",
 					"speed": 9600,

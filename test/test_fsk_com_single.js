@@ -39,6 +39,9 @@ if (tio) {
 	console.timeEnd('Write COM2');
 	sleep(10); 
 
+	console.time('Write COM1');
+	tio.writeCom({ name: 'COM1', data: buf });
+	console.timeEnd('Write COM1');
 	console.time('Write COM2');
 	tio.writeCom({ name: 'COM2', data: buf1 });
 	console.timeEnd('Write COM2');
@@ -58,13 +61,6 @@ if (tio) {
 	tio.writeCom({ name: 'COM2', data: buf5 });
 	console.timeEnd('Write COM2');
 	sleep(1000);
-
-	for (var i = 0; i < 256; i++) {
-		var bb = new Buffer([ i ]);
-		tio.writeCom({ name: 'COM2', data: bb });
-		sleep(200);
-	}
-	sleep(10); 
 
 	tio.enableComTX({ name: 'COM2', enable: 0 });
 	debug('delay approx.: ', (Date.now() - tio.clockResetTime)/1.024);
