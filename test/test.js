@@ -74,10 +74,10 @@ if (tio) {
 	setInterval(function() {
 		setTimeout(function() {
 			tio.writeFSK({ name: fsk, voltage: tio.FSK_MAX_AMPLITUDE, data: bufFSK });
-		}, 4);
+		}, 2);
 		setTimeout(function() {
 			tio.writeFSK({ name: fsk, voltage: 0, data: bufFSK });
-		}, 12);
+		}, 15);
 	}, 20);
 } else {
 	debug('TIO not initialized');
