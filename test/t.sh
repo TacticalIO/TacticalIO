@@ -98,6 +98,10 @@ case "$1" in
     echo "FSKCOM test FSK"
     ./test_fsk_fsk.js
     ;;
+"fsk-c") 
+    echo "FSKCOM test FSK"
+    ./test_fsk_fsk-continuous.js
+    ;;
 "fsk-r") 
     echo "FSKCOM test reset"
     ./test_fsk_reset.js
