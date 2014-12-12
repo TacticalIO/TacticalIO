@@ -5,7 +5,7 @@ var fs = require('fs'),
 	TIO = require('../index').TIO;
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
-config.ioCfgFile = './data/gpio32_io.json';
+//config.ioCfgFile = './data/gpio32_io.json';
 var tio = TIO(config);
 
 if (tio) {
@@ -20,7 +20,7 @@ if (tio) {
 		name: 'DO00',
 		pattern: 0xAA
 	});
-	
+
 	tio.setDigitalPattern({
 		name: 'DO02',
 		pattern: 0xAA

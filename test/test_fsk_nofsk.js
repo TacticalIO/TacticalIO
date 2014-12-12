@@ -5,7 +5,7 @@ var fs = require('fs'),
 	TIO = require('../index').TIO;
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
-config.ioCfgFile = './data/fskcom_io.json';
+//config.ioCfgFile = './data/fskcom_io.json';
 var tio = TIO(config);
 
 if (tio) {

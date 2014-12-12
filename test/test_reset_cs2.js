@@ -14,7 +14,7 @@ function sleep(milliseconds) {
 }
 
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
-config.ioCfgFile = './data/no64_io.json';
+//config.ioCfgFile = './data/no64_io.json';
 var tio = TIO(config);
 
 if (tio) {
