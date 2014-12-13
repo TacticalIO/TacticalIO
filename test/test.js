@@ -34,9 +34,9 @@ if (tio) {
 		tio.readDigital( { name: 'DI35' });
 	}, 100);
 
-	var freq1 = , freq2 = 0, incr = 1, t = 0;
+	var freq1 = 0, freq2 = 0, incr = 1, t = 0;
 	setInterval(function() {
-		tio.setDigitalFreq([{
+		tio.setDigitalFreq2ch([{
 			name: 'DO00',
 			freq: freq1,
 			offset: 90
