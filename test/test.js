@@ -10,6 +10,16 @@ var fs = require('fs'),
 var config = JSON.parse(fs.readFileSync('./data/config.json'));
 var tio = TIO(config);
 
+function load(milliseconds) {
+  var start = Date.now();
+  for (var i = 0; i < 1e7; i++) {
+    if ((Date.now() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+
 var bufFSK = new Buffer([0x8D, 0xEF, 0xF2, 0x38, 0x2D, 0x07, 0x0B, 0xA4, 0x43, 0xE8, 0x46, 0x32, 0x08, 0x62,
 	0xB3, 0x29, 0x31, 0x62, 0xB7, 0x75, 0x75, 0x9C, 0x8C, 0xA1, 0x91, 0xFE, 0x66, 0xEE, 0x3A, 0xDA, 0xEA,
 	0x1E, 0xAC, 0xBE, 0x02, 0x30, 0x31, 0x0A, 0xB0, 0xB4, 0x9B, 0x62, 0xA9, 0xEF, 0xF6, 0xC7, 0x9D, 0x7A, 
@@ -21,55 +31,59 @@ var bufFSK = new Buffer([0x8D, 0xEF, 0xF2, 0x38, 0x2D, 0x07, 0x0B, 0xA4, 0x43, 0
 
 var bufCOM = new Buffer([ 0x12, 0x13, 0x13, 0x12, 0x11, 0x10, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03 ]);
 
-var fskPeriod = 20, 
+var duration = 360000,
+	fskPeriod = 20, 
 	sdmuPeriod = 10, 
 	tccPeriod = 500, 
+	readPeriod = 100,
 	fskCounter = 0,
 	sdmuCounter = 0,
 	tccCounter = 0,
-	tolerance = 5,
+	tolerance = 8,
 	delayed = [],
+	tolerated = {
+		SDMU: [],
+		TCC: [],
+		STARTFSK: [],
+		FSKSTOP: []
+	},
 	fskport = 'FSK1';
 
-var record = function(who, delay, counter) {
-	delayed.push({ w: who, d: delay, c: counter });
+var record = function(who, period, timestamp, d, counter) {
+	if (timestamp && (d > period + tolerance)) {
+		delayed.push({ w: who, d: d - period, c: counter });
+	} else {
+		if (timestamp) tolerated[who].push(d - period);
+	}
 }
 
 var sdmu = function() {
 	tio.setDigitalFreq2ch([{
 		name: 'DO00',
-		freq: freq1,
+		freq: 6000, //freq1,
 		offset: 90
 	}, {
 		name: 'DO02',
-		freq: freq2,
+		freq: 18999, //freq2,
 		offset: 90
 	}]);
-	
-	var nt = Date.now();
-	var d = nt - sdmuTimestamp;
-	if (sdmuTimestamp && (d > sdmuPeriod + tolerance)) {
-		record('WS', d - sdmuPeriod, sdmuCounter);
-	}
+   /*
 	if (freq1 >= 20000) {
 		incr = -1;
-	} else if (freq1 <= 0) {   /* What if freq1 < 0 in the FPGA */
+	} else if (freq1 <= 0) {   // What if freq1 < 0 in the FPGA 
 		incr = 1;	
 	}
 	freq1 += incr*20;
 	freq2 += incr*10;
 	t =+ 0.01;
 	var y = 5*Math.sin(t*2*Math.PI);
-	tio.writeAnalog({ name: 'AO03', value: y });
-	d = Date.now() - sdmuTimestamp;
-	if (sdmuTimestamp && (d > sdmuPeriod + tolerance + 1)) {
-		record('ACC', d - sdmuPeriod, sdmuCounter);
-	}
+	*/
+	tio.writeAnalog({ name: 'AO03', value: 3 });
 	tio.writeCom({ name: 'COM2', data: bufCOM });
-	d = Date.now() - sdmuTimestamp;
-	if (sdmuTimestamp && (d > sdmuPeriod + tolerance + 2)) {
-		record('RADAR', d - sdmuPeriod, sdmuCounter);
-	}
+
+	var nt = Date.now();
+	var d = nt - sdmuTimestamp;
+	record('SDMU', sdmuPeriod, sdmuTimestamp, d, sdmuCounter);
 	sdmuTimestamp = nt;
 	sdmuCounter++;
 }
@@ -78,15 +92,13 @@ var tcc = function() {
 	tio.writeCom({ name: 'COM1', data: bufCOM });
 	var nt = Date.now();
 	d = Date.now() - tccTimestamp;
-	if (tccTimestamp && (d > tccPeriod + tolerance)) {
-		record('TCC', d - tccPeriod, tccCounter);
-	}
+	record('TCC', tccPeriod, tccTimestamp, d, tccCounter);
 	tccTimestamp = nt;
 	tccCounter++;
 }
 
 var fsk = function() {
-	setTimeout(function() {
+	setTimeout(process.nextTick, 2, function() {
 		tio.writeFSK({ name: fskport, 
 			voltage: tio.FSK_MAX_AMPLITUDE, 
 			data: bufFSK, 
@@ -94,20 +106,16 @@ var fsk = function() {
 		});		
 		var nt = Date.now();
 		d = Date.now() - fskTimestamp_start;
-		if (fskTimestamp_start && (d > fskPeriod + tolerance)) {
-			record('FSK', d - fskPeriod, fskCounter);
-		}
+		record('STARTFSK', fskPeriod, fskTimestamp_start, d, fskCounter);
 		fskTimestamp_start = nt;
-	}, 2);
-	setTimeout(function() {
+	});
+	setTimeout(process.nextTick, 15, function() {
 		tio.stopFSK({ id: 'FSKCOM-1' });	
 		var nt = Date.now();
 		d = Date.now() - fskTimestamp_stop;
-		if (fskTimestamp_stop && (d > fskPeriod + tolerance)) {
-			record('FSK stop', d - fskPeriod, fskCounter);
-		}
+		record('FSKSTOP', fskPeriod, fskTimestamp_stop, d, fskCounter);
 		fskTimestamp_stop = nt;
-	}, 15);
+	});
 	fskCounter++;
 }
 
@@ -138,10 +146,12 @@ if (tio) {
 	tcc();
 	fsk();
 	read();
+	load(100);
 	// end of JIT trigger
 
 	// use this for single measure, uless comment it
-	/*console.time('SDMU');
+	/*
+	console.time('SDMU');
 	sdmu();
 	console.timeEnd('SDMU');
 
@@ -181,14 +191,38 @@ if (tio) {
 	}]);	
 	console.timeEnd('WRITE WS');
 
-	process.exit(); */
+	process.exit(); 
+	*/
 	// end of single measure section
 
-	setInterval(read, 100);
+	setTimeout(function() {
+		debug('Test duration: ' + duration + 'ms');
+		debug('Current tolerance: ' + tolerance + 'ms = ' + (tolerance/1000*55.5).toFixed(3) + 'm');
+		var total = delayed.length + tolerated.SDMU.length + tolerated.TCC.length 
+			+ tolerated.STARTFSK.length + tolerated.FSKSTOP.length;
 
-	setInterval(process.nextTick, sdmuPeriod, sdmu);
+		var maxDeviation = 0, hazardousDeviationCounter = 0;
 
-	setInterval(process.nextTick, tccPeriod, tcc);
+		for (var i = 0; i < delayed.length; i++) {
+			//console.log(delayed[i].w + ';' + delayed[i].d + ';' + delayed[i].c);
+			if (delayed[i].d  > maxDeviation) maxDeviation = delayed[i].d;
+			if (delayed[i].d > 20) hazardousDeviationCounter++;
+		}	
+		debug('Total delayed: ' + delayed.length + '  == ' + delayed.length/total*100 + '%');
+		debug('Max deviation: ' + maxDeviation);
+		debug('Hazardous deviation counter (nb of occurrences > 20ms): ' + hazardousDeviationCounter);
+
+		for (var p in tolerated) {			
+			var memo = 0;
+			for (var i = 0; i < tolerated[p].length; i++) {
+				memo += tolerated[p][i];
+			}	
+			debug(p + ': avg when tolerated = ' + memo/tolerated[p].length);
+		}
+		debug('Counters', sdmuCounter, tccCounter, fskCounter);
+		tio.end();
+  	setTimeout(process.exit, 100);
+	}, duration);
 
 	setInterval(function() {
 		if (fskport == 'FSK1') {
@@ -198,16 +232,12 @@ if (tio) {
 		}
 	}, 20000);
 
+	setInterval(load, 10, 3);
+	setInterval(read, readPeriod);
+	setInterval(process.nextTick, sdmuPeriod, sdmu);
+	setInterval(process.nextTick, tccPeriod, tcc);
 	setInterval(process.nextTick, fskPeriod, fsk);
 
-	setTimeout(function() {
-		for (var i = 0; i < delayed.length; i++) {
-			//debug(delayed[i].w + ' delayed: ', delayed[i].d, '   counter: ', delayed[i].c);
-			console.log(delayed[i].w + ';', delayed[i].d, ';', delayed[i].c);
-		}	
-		tio.end();
-  	setTimeout(process.exit, 100);
-	}, 60000);
 } else {
 	debug('TIO not initialized');
 }

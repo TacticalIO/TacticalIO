@@ -3,7 +3,7 @@ export DEBUG=*
 
 case "$1" in
 "init") 
-		echo "Init only test"
+	echo "Init only test"
     ./test_initonly.js
     ;;
 "cs") 
@@ -19,7 +19,7 @@ case "$1" in
     ./test_reset_cs2.js
     ;;
 "spi") 
-		echo "SPI perf test"
+	echo "SPI perf test"
     ./test_spi.js
     ;;
 "aio") 
@@ -99,7 +99,7 @@ case "$1" in
     ./test_fsk_fsk.js
     ;;
 "fsk-c") 
-    echo "FSKCOM test FSK"
+    echo "FSKCOM test FSK - continuous mode"
     ./test_fsk_fsk-continuous.js
     ;;
 "fsk-r") 
