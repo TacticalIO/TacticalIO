@@ -138,6 +138,10 @@ case "$1" in
     echo "Full real situation simulated"
     ./test.js
     ;;
+"cpuio")
+    echo "CPU IO"
+    ./test_cpuio.js
+    ;;
 *) echo "No test"
    ;;
 esac
