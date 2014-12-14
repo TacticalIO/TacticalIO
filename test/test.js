@@ -19,7 +19,6 @@ function load(milliseconds) {
   }
 }
 
-
 var bufFSK = new Buffer([0x8D, 0xEF, 0xF2, 0x38, 0x2D, 0x07, 0x0B, 0xA4, 0x43, 0xE8, 0x46, 0x32, 0x08, 0x62,
 	0xB3, 0x29, 0x31, 0x62, 0xB7, 0x75, 0x75, 0x9C, 0x8C, 0xA1, 0x91, 0xFE, 0x66, 0xEE, 0x3A, 0xDA, 0xEA,
 	0x1E, 0xAC, 0xBE, 0x02, 0x30, 0x31, 0x0A, 0xB0, 0xB4, 0x9B, 0x62, 0xA9, 0xEF, 0xF6, 0xC7, 0x9D, 0x7A, 
@@ -31,7 +30,7 @@ var bufFSK = new Buffer([0x8D, 0xEF, 0xF2, 0x38, 0x2D, 0x07, 0x0B, 0xA4, 0x43, 0
 
 var bufCOM = new Buffer([ 0x12, 0x13, 0x13, 0x12, 0x11, 0x10, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03 ]);
 
-var duration = 360000,
+var duration = 180000,
 	fskPeriod = 20, 
 	sdmuPeriod = 10, 
 	tccPeriod = 500, 
@@ -60,14 +59,14 @@ var record = function(who, period, timestamp, d, counter) {
 var sdmu = function() {
 	tio.setDigitalFreq2ch([{
 		name: 'DO00',
-		freq: 6000, //freq1,
+		freq: freq1,
 		offset: 90
 	}, {
 		name: 'DO02',
-		freq: 18999, //freq2,
+		freq: freq2,
 		offset: 90
 	}]);
-   /*
+  
 	if (freq1 >= 20000) {
 		incr = -1;
 	} else if (freq1 <= 0) {   // What if freq1 < 0 in the FPGA 
@@ -77,7 +76,7 @@ var sdmu = function() {
 	freq2 += incr*10;
 	t =+ 0.01;
 	var y = 5*Math.sin(t*2*Math.PI);
-	*/
+	
 	tio.writeAnalog({ name: 'AO03', value: 3 });
 	tio.writeCom({ name: 'COM2', data: bufCOM });
 
@@ -204,9 +203,13 @@ if (tio) {
 		var maxDeviation = 0, hazardousDeviationCounter = 0;
 
 		for (var i = 0; i < delayed.length; i++) {
-			//console.log(delayed[i].w + ';' + delayed[i].d + ';' + delayed[i].c);
 			if (delayed[i].d  > maxDeviation) maxDeviation = delayed[i].d;
-			if (delayed[i].d > 20) hazardousDeviationCounter++;
+			if (delayed[i].d > 20) {
+				hazardousDeviationCounter++;
+				//console.log('!=======>;' + delayed[i].w + ';' + delayed[i].d + ';' + delayed[i].c);
+			} /*else {
+				console.log(delayed[i].w + ';' + delayed[i].d + ';' + delayed[i].c);
+			}*/
 		}	
 		debug('Total delayed: ' + delayed.length + '  == ' + delayed.length/total*100 + '%');
 		debug('Max deviation: ' + maxDeviation);
@@ -237,6 +240,9 @@ if (tio) {
 	setInterval(process.nextTick, sdmuPeriod, sdmu);
 	setInterval(process.nextTick, tccPeriod, tcc);
 	setInterval(process.nextTick, fskPeriod, fsk);
+	/*setInterval(sdmu, sdmuPeriod);
+	setInterval(tcc, tccPeriod);
+	setInterval(fsk, fskPeriod);*/
 
 } else {
 	debug('TIO not initialized');
