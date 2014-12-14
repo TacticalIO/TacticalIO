@@ -21,64 +21,193 @@ var bufFSK = new Buffer([0x8D, 0xEF, 0xF2, 0x38, 0x2D, 0x07, 0x0B, 0xA4, 0x43, 0
 
 var bufCOM = new Buffer([ 0x12, 0x13, 0x13, 0x12, 0x11, 0x10, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03 ]);
 
+var fskPeriod = 20, 
+	sdmuPeriod = 10, 
+	tccPeriod = 500, 
+	fskCounter = 0,
+	sdmuCounter = 0,
+	tccCounter = 0,
+	tolerance = 5,
+	delayed = [],
+	fskport = 'FSK1';
+
+var record = function(who, delay, counter) {
+	delayed.push({ w: who, d: delay, c: counter });
+}
+
+var sdmu = function() {
+	tio.setDigitalFreq2ch([{
+		name: 'DO00',
+		freq: freq1,
+		offset: 90
+	}, {
+		name: 'DO02',
+		freq: freq2,
+		offset: 90
+	}]);
+	
+	var nt = Date.now();
+	var d = nt - sdmuTimestamp;
+	if (sdmuTimestamp && (d > sdmuPeriod + tolerance)) {
+		record('WS', d - sdmuPeriod, sdmuCounter);
+	}
+	if (freq1 >= 20000) {
+		incr = -1;
+	} else if (freq1 <= 0) {   /* What if freq1 < 0 in the FPGA */
+		incr = 1;	
+	}
+	freq1 += incr*20;
+	freq2 += incr*10;
+	t =+ 0.01;
+	var y = 5*Math.sin(t*2*Math.PI);
+	tio.writeAnalog({ name: 'AO03', value: y });
+	d = Date.now() - sdmuTimestamp;
+	if (sdmuTimestamp && (d > sdmuPeriod + tolerance + 1)) {
+		record('ACC', d - sdmuPeriod, sdmuCounter);
+	}
+	tio.writeCom({ name: 'COM2', data: bufCOM });
+	d = Date.now() - sdmuTimestamp;
+	if (sdmuTimestamp && (d > sdmuPeriod + tolerance + 2)) {
+		record('RADAR', d - sdmuPeriod, sdmuCounter);
+	}
+	sdmuTimestamp = nt;
+	sdmuCounter++;
+}
+
+var tcc = function() {
+	tio.writeCom({ name: 'COM1', data: bufCOM });
+	var nt = Date.now();
+	d = Date.now() - tccTimestamp;
+	if (tccTimestamp && (d > tccPeriod + tolerance)) {
+		record('TCC', d - tccPeriod, tccCounter);
+	}
+	tccTimestamp = nt;
+	tccCounter++;
+}
+
+var fsk = function() {
+	setTimeout(function() {
+		tio.writeFSK({ name: fskport, 
+			voltage: tio.FSK_MAX_AMPLITUDE, 
+			data: bufFSK, 
+			continuous: true  
+		});		
+		var nt = Date.now();
+		d = Date.now() - fskTimestamp_start;
+		if (fskTimestamp_start && (d > fskPeriod + tolerance)) {
+			record('FSK', d - fskPeriod, fskCounter);
+		}
+		fskTimestamp_start = nt;
+	}, 2);
+	setTimeout(function() {
+		tio.stopFSK({ id: 'FSKCOM-1' });	
+		var nt = Date.now();
+		d = Date.now() - fskTimestamp_stop;
+		if (fskTimestamp_stop && (d > fskPeriod + tolerance)) {
+			record('FSK stop', d - fskPeriod, fskCounter);
+		}
+		fskTimestamp_stop = nt;
+	}, 15);
+	fskCounter++;
+}
+
+var read = function() {
+	tio.readAIO12Analog8({ id : 'AIO12-1' }); // 3ms
+	tio.writeHSGPIO32Digital16({ id : 'GPIO32-1' }); // 2ms
+	tio.writeHSGPIO32Digital16({ id : 'GPIO32-1' }); // 2ms
+	tio.readDigital( { name: 'DI32' });
+	tio.readDigital( { name: 'DI33' });
+	tio.readDigital( { name: 'DI34' });
+	tio.readDigital( { name: 'DI35' });
+}
+
 if (tio) {
 	debug('TIO stack initialized [mode = ' + process.env.DEBUG + ']');
 
-	setInterval(function() {
-		tio.readAIO12Analog8({ id : 'AIO12-1' });
-		tio.readHSGPIO32Digital16({ id : 'GPIO32-1' });
-		tio.readHSGPIO32Digital16({ id : 'GPIO32-1' });
-		tio.readDigital( { name: 'DI32' });
-		tio.readDigital( { name: 'DI33' });
-		tio.readDigital( { name: 'DI34' });
-		tio.readDigital( { name: 'DI35' });
-	}, 100);
+	var freq1 = 0, 
+		freq2 = 0, 
+		incr = 1, 
+		t = 0, 
+		sdmuTimestamp,
+		tccTimestamp,
+		fskTimestamp_start,
+		fskTimestamp_stop;
 
-	var freq1 = 0, freq2 = 0, incr = 1, t = 0;
-	setInterval(function() {
-		tio.setDigitalFreq2ch([{
-			name: 'DO00',
-			freq: freq1,
-			offset: 90
-		}, {
-			name: 'DO02',
-			freq: freq2,
-			offset: 90
-		}]);
-		
-		if (freq1 >= 20000) {
-			incr = -1;
-		} else if (freq1 <= 0) {   /* What if freq1 < 0 in the FPGA */
-			incr = 1;	
-		}
-		freq1 += incr*20;
-		freq2 += incr*10;
-		t =+ 0.01;
-		tio.writeAnalog({ name: 'AO03', value: 5*Math.sin(t*2*Math.PI) });
-		tio.writeCom({ name: 'COM2', data: bufCOM });
-	}, 10);
+	// JIT trigger
+	sdmu();
+	tcc();
+	fsk();
+	read();
+	// end of JIT trigger
+
+	// use this for single measure, uless comment it
+	/*console.time('SDMU');
+	sdmu();
+	console.timeEnd('SDMU');
+
+	console.time('TCC');
+	tcc();
+	console.timeEnd('TCC');
+
+	console.time('FSK');
+	fsk();
+	console.timeEnd('FSK');
+
+	console.time('READ');
+	read();
+	console.timeEnd('READ');
+
+	console.time('WRITE ANALOG');
+	tio.writeAnalog({ name: 'AO03', value: 300 });
+	console.timeEnd('WRITE ANALOG');	
+	
+	console.time('WRITE COM2');
+	tio.writeCom({ name: 'COM2', data: bufCOM });
+	console.timeEnd('WRITE COM2');	
+
+	console.time('WRITE GPIO16');
+	tio.writeHSGPIO32Digital16({ id : 'GPIO32-1' });
+	console.timeEnd('WRITE GPIO16');	
+
+	console.time('WRITE WS');
+	tio.setDigitalFreq2ch([{
+		name: 'DO00',
+		freq: freq1,
+		offset: 90
+	}, {
+		name: 'DO02',
+		freq: freq2,
+		offset: 90
+	}]);	
+	console.timeEnd('WRITE WS');
+
+	process.exit(); */
+	// end of single measure section
+
+	setInterval(read, 100);
+
+	setInterval(process.nextTick, sdmuPeriod, sdmu);
+
+	setInterval(process.nextTick, tccPeriod, tcc);
 
 	setInterval(function() {
-		tio.writeCom({ name: 'COM1', data: bufCOM });
-	}, 500);
-
-	var fsk = 'FSK1';
-	setInterval(function() {
-		if (fsk == 'FSK1') {
-			fsk = 'FSK2';
+		if (fskport == 'FSK1') {
+			fskport = 'FSK2';
 		} else {
-			fsk = 'FSK1';
+			fskport = 'FSK1';
 		}
 	}, 20000);
 
-	setInterval(function() {
-		setTimeout(function() {
-			tio.writeFSK({ name: fsk, voltage: tio.FSK_MAX_AMPLITUDE, data: bufFSK, continuous: true  });
-		}, 2);
-		setTimeout(function() {
-			tio.stopFSK({ id: 'FSKCOM-1' });
-		}, 15);
-	}, 20);
+	setInterval(process.nextTick, fskPeriod, fsk);
+
+	setTimeout(function() {
+		for (var i = 0; i < delayed.length; i++) {
+			//debug(delayed[i].w + ' delayed: ', delayed[i].d, '   counter: ', delayed[i].c);
+			console.log(delayed[i].w + ';', delayed[i].d, ';', delayed[i].c);
+		}	
+		tio.end();
+  	setTimeout(process.exit, 100);
+	}, 60000);
 } else {
 	debug('TIO not initialized');
 }
@@ -87,9 +216,5 @@ if (tio) {
 process.on('SIGINT', function() {
 	tio.end();
   debug('killed by the user');
-  /* => now separate when production */
-  if (process.arch == 'x64') {
-  	server.kill('SIGKILL');
-  }
   setTimeout(process.exit, 100);
 });
