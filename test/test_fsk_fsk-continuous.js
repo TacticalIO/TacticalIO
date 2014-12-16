@@ -47,23 +47,23 @@ if (tio) {
 	var gpio_id = tio.typeId( { id: 'FSKCOM-1'});
 	console.timeEnd('board id');	
 	console.log('FSKCOM-1 FPGA id: ', gpio_id);
-	
+
 	console.time('Write FSK1');
 	tio.writeFSK({ name: 'FSK1', voltage: voltage, data: buf, continuous: true });
 	console.timeEnd('Write FSK1');
-	sleep(5000);
+	sleep(50);
 	tio.stopFSK({ id: 'FSKCOM-1' });
 
 	console.time('Write FSK2');
 	tio.writeFSK({ name: 'FSK2', voltage: voltage, data: buf, continuous: true  });
 	console.timeEnd('Write FSK2');
-	sleep(5000);
+	sleep(50);
 	tio.stopFSK({ id: 'FSKCOM-1' });
 
 	console.time('Write FSK1');
 	tio.writeFSK({ name: 'FSK1', voltage: voltage, data: buf2, continuous: true });
 	console.timeEnd('Write FSK1');
-	sleep(5000);
+	sleep(50);
 	tio.stopFSK({ id: 'FSKCOM-1' });
 
 	setTimeout(function() {
