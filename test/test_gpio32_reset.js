@@ -35,6 +35,26 @@ if (tio) {
 	tio.leds({ id: 'GPIO32-1', led1: 0, led2: 0, led3: 0 });
 	console.timeEnd('GPIO32 reset leds');
 
+	console.time('1x W GPIO32 reset out');
+	tio.writeHSGPIO32Digital16({ id: 'GPIO32-2', values: 0 });
+	console.timeEnd('1x W GPIO32 reset out');
+
+	console.time('GPIO32 reset leds');
+	tio.leds({ id: 'GPIO32-2', led1: 0, led2: 0, led3: 0 });
+	console.timeEnd('GPIO32 reset leds');
+
+	console.time('setDigitalFreq2ch reset');
+	tio.setDigitalFreq2ch([{
+		name: 'DO00',
+		freq: 0,
+		offset: 90
+	}, {
+		name: 'DO02',
+		freq: 20000,
+		offset: 0
+	}]);
+	console.timeEnd('setDigitalFreq2ch reset');	
+
 	setTimeout(function() {
 		tio.end();
 		debug('All pins unexported');

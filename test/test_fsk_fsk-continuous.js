@@ -43,6 +43,11 @@ if (tio) {
 	tio.leds({ id: 'FSKCOM-1', led1: 1, led2: 1, led3: 0 });
 	console.timeEnd('FSKCOM write leds');
 
+	console.time('board id');
+	var gpio_id = tio.typeId( { id: 'FSKCOM-1'});
+	console.timeEnd('board id');	
+	console.log('FSKCOM-1 FPGA id: ', gpio_id);
+	
 	console.time('Write FSK1');
 	tio.writeFSK({ name: 'FSK1', voltage: voltage, data: buf, continuous: true });
 	console.timeEnd('Write FSK1');

@@ -62,6 +62,14 @@ case "$1" in
     echo "GPIO32 test high"
     ./test_gpio32_high.js
     ;;
+"32io-h2") 
+    echo "GPIO32 test high 2"
+    ./test_gpio32_high-2.js
+    ;;
+"32io-2xh") 
+    echo "GPIO32 test high 32 out (2x boards)"
+    ./test_gpio32_high32out.js
+    ;;
 "32io-r") 
     echo "GPIO32 test reset"
     ./test_gpio32_reset.js
