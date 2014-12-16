@@ -46,6 +46,10 @@ case "$1" in
     echo "GPIO32 test"
     ./test_gpio32.js
     ;;
+"32io-ds") 
+    echo "GPIO32 test as per data"
+    ./test_gpio32_ds.js
+    ;;
 "32io-b") 
     echo "GPIO32 test static pattern"
     ./test_gpio32_1_0.js
