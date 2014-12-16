@@ -19,14 +19,14 @@ if (tio) {
 	console.time('setDigitalPattern');
 	tio.setDigitalPattern({
 		name: 'DO00',
-		pattern: 0xAA
+		pattern: 0x55
 	});
 	console.timeEnd('setDigitalPattern');
 
 	console.time('setDigitalPattern');
 	tio.setDigitalPattern({
 		name: 'DO02',
-		pattern: 0xAA
+		pattern: 0x55
 	});
 	console.timeEnd('setDigitalPattern');
 

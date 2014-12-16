@@ -43,6 +43,20 @@ if (tio) {
 	tio.leds({ id: 'GPIO32-2', led1: 0, led2: 0, led3: 0 });
 	console.timeEnd('GPIO32 reset leds');
 
+	console.time('setDigitalPattern');
+	tio.setDigitalPattern({
+		name: 'DO00',
+		pattern: 0x55
+	});
+	console.timeEnd('setDigitalPattern');
+
+	console.time('setDigitalPattern');
+	tio.setDigitalPattern({
+		name: 'DO02',
+		pattern: 0x55
+	});
+	console.timeEnd('setDigitalPattern');
+	
 	console.time('setDigitalFreq2ch reset');
 	tio.setDigitalFreq2ch([{
 		name: 'DO00',
@@ -50,7 +64,7 @@ if (tio) {
 		offset: 90
 	}, {
 		name: 'DO02',
-		freq: 20000,
+		freq: 0,
 		offset: 0
 	}]);
 	console.timeEnd('setDigitalFreq2ch reset');	
